@@ -61,7 +61,11 @@ detail.
 There is so much slow down!
 ----------------------------------------------------------
 That one is natural considering I must fill the whole
-screen of data. That being said, most of the.
+screen of data. That being said, I build the code in such
+a way that the waves themselves are calculated only once
+while the remaining line are filled by copying these
+calculated lines.
+It could be worse, at least.
 
 Tip: Use as small wavelengths as possible. That way, only
 few scanlines have to be really calculated.

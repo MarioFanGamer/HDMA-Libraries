@@ -7,10 +7,6 @@
 ;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-;The base address of the data tables.
-; Preferably bank bytes only because it would mess up the copying of data tables.
-!WaveTableBase = $7F0000
-
 ; The default address for the HDMA data table
 ; It should be as large as 448 bytes
 !DefHDMATable = $1853
@@ -83,6 +79,7 @@ if !EnableSA1Boosting
 RTL
 
 .sa1:
+	PHP
 	REP #$30
 	STZ $2250
 endif
@@ -151,6 +148,7 @@ endif						;
 	MVN !WaveTableBase>>16,!WaveTableBase>>16
 .LoopFinished:
 	PLB
+	PLP
 RTL
 
 

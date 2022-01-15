@@ -65,40 +65,40 @@ case $1 in
 		zip_name="$source_folder"
 		
 		# Merge BaseMacros.asm with ParallaxMacros.asm
-		cat BaseMacros.asm "$sourcefolder/ParallaxMacros.asm" > "$release_folder/ParallaxMacros.asm"
+		cat BaseMacros.asm "$source_folder/ParallaxMacros.asm" > "$release_folder/ParallaxMacros.asm"
 		
 		# Copy all the individual files to the main folder
-		cp "$sourcefolder/Parallax HDMA Toolkit - Readme.txt" "$release_folder"
+		cp "$source_folder/Parallax HDMA Toolkit - Readme.txt" "$release_folder"
 		
 		# Copy the library to the library folder
-		cp "$sourcefolder/ParallaxToolkit.asm" "$release_folder/$library_folder"
+		cp "$source_folder/ParallaxToolkit.asm" "$release_folder/$library_folder"
 		
 		# Copy base code to the levels folder
-		cp "$zipname/Base.asm" "$release_folder/$level_folder"
+		cp "$source_folder/Base.asm" "$release_folder/$level_folder"
 		
 		# Get every file and copy them to levels
-		find "./$sourcefolder/examples/" -type f -exec cp '{}' "$release_folder/$level_folder" \;
+		find "./$source_folder/examples/" -type f -exec cp '{}' "$release_folder/$level_folder" \;
 		;;
 	waves)
 		# Just some standardised variable names
-		source_folder="$parallax_folder"
+		source_folder="$waves_folder"
 		zip_name="$source_folder"
 		
 		# Merge BaseMacros.asm with WavesMacros.asm
-		cat BaseMacros.asm "$sourcefolder/WavesMacros.asm" > "$release_folder/WavesMacros.asm"
+		cat BaseMacros.asm "$source_folder/WavesMacros.asm" > "$release_folder/WavesMacros.asm"
 		
 		# Copy all the individual files to the main folder
-		cp "$sourcefolder/HDMA Waves Toolkit - Readme.txt" "$release_folder"
-		cp "$sourcefolder/HDMA Waves Toolkit - Technical Readme.txt" "$release_folder"
+		cp "$source_folder/HDMA Waves Toolkit - Readme.txt" "$release_folder"
+		cp "$source_folder/HDMA Waves Toolkit - Technical Readme.txt" "$release_folder"
 		
 		# Copy the library to the library folder
-		cp "$sourcefolder/WavesToolkit.asm" "$release_folder/$library_folder"
+		cp "$source_folder/WavesToolkit.asm" "$release_folder/$library_folder"
 		
 		# Copy base code to the levels folder
-		cp "$zipname/Base.asm" "$release_folder/$level_folder"
+		cp "$source_folder/Base.asm" "$release_folder/$level_folder"
 		
 		# Get every file and copy them to levels
-		find "./$sourcefolder/examples/" -type f -exec cp '{}' "$release_folder/$level_folder" \;
+		find "./$source_folder/examples/" -type f -exec cp '{}' "$release_folder/$level_folder" \;
 		;;
 	all)
 		echo "Not implemented yet." >&2
