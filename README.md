@@ -5,6 +5,8 @@ they're usable for other SNES games as well as homebrew projects.
 Keep in mind that this readme is kept very general and only contains a short description as well as which file is what.
 You can find more details for each resource in the corresponding readmes.
 
+## General insertion
+
 In order to insert any of these libraries in UberASM, you have to perform the following steps (assuming default values):
 1. Insert the content of `BaseMacros.asm` to `other/macro_library.asm`.
 2. Insert the contents of the macro for the HDMA effects you want to insert to `other/macro_library.asm`.
@@ -49,19 +51,9 @@ Contents of this library:
 - `examples`: The folder with working examples.
 
 
-Functions
-----------------------------------------------------------
+## Release Script
 
-bgof2reg(layer, dir):
-That one isn't a macro but rather a function. What it does
-is to calculate, which BGOFS register is used.
-Unsurprisingly, layer is the background layer (1 - 4) and
-direction is the direction of the offset (0 = horizontal,
-1 = vertical).
+In order to make packaging the libraries easier, I provide a library.
 
-----------------------------------------------------------
-
-bgof2addr(layer, dir):
-Similar to the above but calculates the address of the
-BGOFS mirrors (aside from layer 4, that one spits out
-garbage due to lack of proper mirrors).
+The script runs on Shell script (though tested in Bash only) and uses ZIP compression. As a result, you should have `zip` installed which most package mangers provide.
+If you use Windows, I recommend you to install MSYS2 which comes with a port of Unix tools including `bash` (to run this script) and `zip` (to create the release archive).

@@ -32,9 +32,17 @@ macro ScrollHdmaMain(layer, offset, factor)
 	LDA #!ScrollDefBlue			; Get address of blue table
 	STA $02						;
 								;
+if <layer>						;
 	LDA bgof2addr(<layer>, 0)	; Get layer offset
 	CLC : ADC.w #<offset>		; Add it with offset
-	LSR #<factor>				; Shift by N bytes
+	if <factor> > 0				;
+		LSR #<factor>			; Shift by N bytes
+	elseif < 0					;
+		ASL #-<factor>			; Shift by N bytes
+	endif						;
+else							;
+	LDA.w #<offset>				; Get direct offset.
+endif							;
 	JSL ScrollHDMA_main			; Change pointers
 	PLP							; Restore register sizes
 endmacro
@@ -58,6 +66,6 @@ macro ScrollHdmaDiv(layer, offset, divisor)
 	STA $02						; (+ 4 cycles)
 								;
 	LDA $4214					; Get new offset! (+ 3 cycles)
-	JSL ScrollHDMA_div			; Change pointers
+	JSL ScrollHDMA_main			; Change pointers
 	PLP							; Restore register sizes
 endmacro

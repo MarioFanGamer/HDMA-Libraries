@@ -11,19 +11,16 @@
 !Wavelength = $10		; How many scanlines until the waves repeat.
 !Amplitude = $02		; How far the waves move. Set to $80 for inverted waves
 
-function bgof2reg(layer, dir) = ((layer-1)<<1)+(dir&1)+$D
-
 init:
 	%InitWave(bgof2reg(!AffectedLayer, !Scroll), !Channel, Waves_HDMAPtrs)
-	BRA HandleWaves
+JMP HandleWaves
 
 main:
 	LDA $9D
 	ORA $13D4|!addr
-	BEQ .Return
+	BEQ HandleWaves
 RTL
 
 HandleWaves:
 	; Your Codes
-.Return:
 RTL

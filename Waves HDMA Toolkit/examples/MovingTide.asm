@@ -16,14 +16,15 @@
 
 init:
 	%InitWave(bgof2reg(!AffectedLayer, !Scroll), !Channel, Waves_HDMAPtrs)
+JMP HandleWaves
 
 main:
 	LDA $9D
 	ORA $13D4|!addr
-	BEQ .Okay
+	BEQ HandleWaves
 RTL
 
-.Okay:
+HandleWaves:
 	%RunWave(!Speed)
 	%RangedWaves(!Wavelength, !Amplitude, !AffectedLayer, !Scroll, !LayerHook, !WavesStart, !Alternate*$80, !HdmaDataTable, 224)
 RTL

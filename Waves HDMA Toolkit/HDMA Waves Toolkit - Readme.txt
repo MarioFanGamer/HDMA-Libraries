@@ -43,6 +43,16 @@ Side note: Heat.asm assumes you have installed the
 Scrollable HDMA Gradients library. You won't be able to
 insert it in UberASM otherwise.
 
+How do I use it with SA-1?
+----------------------------------------------------------
+The library is compatible with SA-1 by default since none
+of the code runs on SA-1.
+
+That being said, you may want to enable SA-1 boosting,
+considering it can greatly benefit from SA-1's speed. If
+doing so, make sure you relocate freeRAM to BW-RAM (banks
+$40 and $41) and enable SA-1 boosting in the library code.
+
 Can you explain the macros in detail?
 ----------------------------------------------------------
 See "Macros and Functions - HDMA Waves.txt" for more

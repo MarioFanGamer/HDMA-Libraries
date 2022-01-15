@@ -13,7 +13,16 @@
 
 ; The default address for the HDMA data table
 ; It should be as large as 448 bytes
-!DefHDMATable = $7F1853
+!DefHDMATable = $1853
+
+; A define to enable SA-1 boosting so the code runs on SA-1.
+; Make sure you change freeRAM so it uses BW-RAM i.e. banks $40 and $41
+!EnableSA1Boosting = 0
+
+
+; Just make sure it only gets truly enabled if you really use SA-1
+; No need to edit it.
+!EnableSA1Boosting #= !EnableSA1Boosting*!sa1
 
 ; Init code
 ; This one sets up HDMA for the waves.
@@ -61,13 +70,22 @@ RTL
 ; $05: Delta X pos (24-bit, lowest byte = subangle)
 ; $08: Layer offset
 ; $0C: Pointer of HDMA table
-; $0E: Height of waves * 2
+; $0E: Amount of data * 2
 ;
 ; Other scratch RAM:
 ; $8A: End of table
 ; $8C: Amplitude
 CalculateWaves:
 	STX $8A					; Store amplitude
+if !EnableSA1Boosting
+	SEP #$30
+	%invoke_sa1(.sa1)
+RTL
+
+.sa1:
+	REP #$30
+	STZ $2250
+endif
 	LDA $0E					; Failsafe to write only as many bytes as possible
 	CMP $00					; Basically: If the wavelength is larger than the height,
 	BCS .Bigger				; use the height for the loop count
@@ -89,6 +107,18 @@ CalculateWaves:
 	PHY						; Preserve loop count
 	LDY $03					;
 	LDA SineTable,y			; Get sine
+if !EnableSA1Boosting		;
+	STA $2251				; Multiplicand A
+	LDA $8A					; Amplitude
+	AND #$00FF				; Low byte only
+	STA $2253				; Multiplicand B
+	SEP #$20				; A = 8-bit
+	LDA $05					; Add delta (subangle)
+	CLC : ADC $02			;
+	STA $05					;
+	REP #$20				; A = 16-bit
+	LDA $2307				; Get offset
+else						;
 	SEP #$20				; A = 8-bit
 	STA $211B				; Multiplicand A
 	XBA						;
@@ -100,6 +130,7 @@ CalculateWaves:
 	STA $02					;
 	REP #$20				; A = 16-bit
 	LDA $2135				; Get offset
+endif						;
 	CLC : ADC $08			; Add with layer offset
 	STA !WaveTableBase,x	; Y = !WaveTableBase
 	TYA						; Get next angle

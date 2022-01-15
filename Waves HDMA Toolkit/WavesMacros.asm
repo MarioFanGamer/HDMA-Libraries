@@ -131,12 +131,12 @@ macro RangedWaves(wavelength, amplitude, bg_offset, dir, layer_dep, wave_edge, a
 	LDA.b bgof2addr(<bg_offset>, <dir>)
 	STA $08					; Preserve position for later
 if <layer_dep>				;
-	LDA.w <height>*2		; Store height
+	LDA.w #<height>*2		; Store height
 	STA $0E					;
 	LDA.w #<wave_edge>		; Get height of no-waves
 	SEC : SBC.b bgof2addr(<layer_dep>,1)
-	CMP.w #<height>			; Within border of the screen.
-	BPL ?WavesOnly			; If at the upper edge: Draw only the waves
+	BEQ ?WavesOnly			; If the edge is above the screen: Draw only waves.
+	BMI ?WavesOnly			; ($00 may never be smaller than 1.)
 	STA $00					; Preserve range.
 else						;
 	LDA.w #<wave_edge>		; Get wave height
@@ -147,7 +147,7 @@ endif						;
 if <layer_dep>				;
 	LDY #$0001				; Draw waves.
 	LDA $00					; Range must not exceed total height.
-	CMP.w #<wave_edge>		;
+	CMP.w #<height>			;
 	BCC ?WithinScreen		;
 	DEY						; Don't draw waves.
 	LDA.w #<height>			;

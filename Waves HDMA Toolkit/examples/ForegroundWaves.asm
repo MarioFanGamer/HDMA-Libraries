@@ -18,10 +18,11 @@ init:
 main:
 	LDA $9D
 	ORA $13D4|!addr
-	BNE .Return
+	BEQ HandleWaves
+RTL
 
+HandleWaves:
 	%RunWave(!Speed)
 	%WaveStoreOffset(!AffectedLayer)
 	%CallWave(!Wavelength, !Amplitude, 0, bgof2addr(!AffectedLayer, !Scroll), !Alternate*$80, !HdmaDataTable, 224)
-.Return:
 RTL
